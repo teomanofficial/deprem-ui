@@ -18,13 +18,15 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { RequestDetailsCardComponent } from './components/request-details-card/request-details-card.component';
+import { FilterPanelComponent } from './components/filter-panel/filter-panel.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateHelpFormComponent,
-    RequestDetailsCardComponent
+    RequestDetailsCardComponent,
+    FilterPanelComponent
   ],
   imports: [
     BrowserModule,

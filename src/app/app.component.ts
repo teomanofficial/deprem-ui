@@ -11,10 +11,9 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { Feature, Point } from 'geojson';
-import { child, get, getDatabase, ref, onValue } from 'firebase/database';
+import { child, get, getDatabase, ref } from 'firebase/database';
 import { firebaseApp } from './core/config/firebase/db.firebase';
-import { createMarker, createMarkerFromLatLng, createRegisteredMarker } from './core/utils/create-marker.util';
+import { createMarkerFromLatLng, createRegisteredMarker } from './core/utils/create-marker.util';
 import { HelpRequestModel } from './core/models/help-request.model';
 import { GeocodingService } from './core/services/geocoding.service';
 import { RequestDetailsCardComponent } from './components/request-details-card/request-details-card.component';
@@ -39,6 +38,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   requests: Record<string, HelpRequestModel>;
   selectedRequest: HelpRequestModel;
   requestPosition: { top: string, left: string } = { top: '10px', left: '10px' };
+  showFilterPanel: boolean = false;
 
   constructor(
     private readonly geocoding: GeocodingService,
@@ -183,6 +183,19 @@ export class AppComponent implements OnInit, AfterViewInit {
     (marker as any)['__id__'] = id;
     marker.on('click', this.onMarkerClick.bind(this))
     this.markers[id] = marker;
+  }
+
+  onShowFilterButtonClick() {
+    this.showFilterPanel = true;
+  }
+
+  onCloseFilterButtonClick() {
+    this.showFilterPanel = false;
+  }
+
+  onAddressClickFromFilter(item: HelpRequestModel) {
+    const { lat, lon } = item.location;
+    this.map.flyTo([lat,lon],18)
   }
 }
 

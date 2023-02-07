@@ -3,4 +3,5 @@ export interface HelpRequestModel {
   address: string;
   description: string;
   location: { lat: number, lon: number };
+  datetime?: { date: string; time: string }
 }
