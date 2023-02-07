@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Detaylar</div>
+  </div>
+  <div class="card-body">
+    <tbody>
+    <tr>
+      <td>Adres</td>
+      <td>{{ request.address }}</td>
+    </tr>
+    <tr>
+      <td>Açıklama</td>
+      <td>{{ request.description }}</td>
+    </tr>
+    </tbody>
+  </div>
+  <div class="card-footer d-flex justify-content-between">
+    <button mat-flat-button (click)="onCloseClick()">Kapat</button>
+    <button mat-flat-button color="warn" (click)="onDeleteButton()" [disabled]="loading">
+      {{ loading ? 'Kaldırılıyor..' : 'Kaldır' }}
+    </button>
+  </div>
+</div>

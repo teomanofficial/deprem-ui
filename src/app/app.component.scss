@@ -1,0 +1,92 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  height: 75px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+  &__brand {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    height: 40px;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 24px;
+  }
+}
+
+.wrapper {
+  width: 100%;
+  min-height: calc(100vh - 75px);
+  position: relative;
+  overflow: hidden;
+}
+
+.map {
+  width: 100%;
+  height: calc(100vh - 75px);
+}
+
+.help-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.loading-button {
+  position: absolute;
+  top: 100px;
+  right: 20px;
+  z-index: 9999;
+}
+
+app-request-details-card {
+  position: absolute;
+  width: 400px;
+  display: block;
+  background-color: #fff;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  z-index: 999999;
+  top: 10px;
+  left: 10px;
+}
+
+app-create-help-form {
+  position: absolute;
+  right: 20px;
+  width: 400px;
+  top: 20px;
+  display: block;
+  background-color: #fff;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  z-index: 99999;
+
+  @media (max-width: 600px) {
+    right: 10px;
+    left: 10px;
+    width: calc(100%  - 20px);
+  }
+
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 0 20px;
+    justify-content: center;
+
+    &__brand {
+      justify-content: center;
+    }
+
+    &__title {
+      font-size: 20px;
+    }
+  }
+}
