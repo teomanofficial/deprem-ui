@@ -46,6 +46,7 @@ export class FilterPanelComponent implements OnInit {
   }
 
   onFormSubmit() {
+    this.initRequestArray();
     if (this.form.controls.address.value) {
       this.sortedRequestArray = this.sortedRequestArray
         .filter((item) =>
