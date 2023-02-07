@@ -3,19 +3,27 @@
     <div class="card-title">Detaylar</div>
   </div>
   <div class="card-body">
-    <tbody>
-    <tr>
-      <td>Adres</td>
-      <td>{{ request.address }}</td>
-    </tr>
-    <tr>
-      <td>Açıklama</td>
-      <td>{{ request.description }}</td>
-    </tr>
-    </tbody>
+    <div class='custom-table'>
+      <div class='custom-row'>
+        <div class='row-heading'>
+          Adres:
+        </div>
+        <div class='row-description'>
+          {{ request.address }}
+        </div>
+      </div>
+      <div class='custom-row'>
+        <div class='row-heading'>
+          Açıklama:
+        </div>
+        <div class='row-description'>
+          {{ request.description ? request.description : '-' }}
+        </div>
+      </div>
+    </div>
   </div>
   <div class="card-footer d-flex justify-content-between">
-    <button mat-flat-button (click)="onCloseClick()">Kapat</button>
+    <button class='form-button-custom' mat-flat-button (click)="onCloseClick()">Kapat</button>
     <button mat-flat-button color="warn" (click)="onDeleteButton()" [disabled]="loading">
       {{ loading ? 'Kaldırılıyor..' : 'Kaldır' }}
     </button>

@@ -25,10 +25,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border-radius: 0;
 }
 
-.leaflet-popup-content-wrapper {
-  border-radius: 0.5px !important;
-}
 
 .leaflet-popup-content-wrapper {
   padding: 0 !important;
+}
+.leaflet-popup-tip{
+  background-color: #F7F7F7 !important;
 }

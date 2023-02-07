@@ -1,0 +1,25 @@
+.custom-row{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  flex: 1 0;
+  word-break: keep-all;
+  padding: .5rem 0rem;
+  &:not(:last-child){
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,.3);
+  }
+}
+.row-heading{
+  font-weight: bold;
+}
+.form-button-custom {
+  border: 1px solid rgba(0,0,0,.2);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.card-title{
+  font-weight: bold;
+  font-size: 20px;
+}

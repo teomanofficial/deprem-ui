@@ -22,7 +22,7 @@
         <textarea matInput placeholder="Açıklama ekleyiniz" formControlName="description"></textarea>
       </mat-form-field>
 
-      <button mat-flat-button type="button" *ngIf="!showDateAndTime" (click)="showDateAndTime = !showDateAndTime">
+      <button class='form-button-custom' mat-flat-button type="button" *ngIf="!showDateAndTime" (click)="showDateAndTime = !showDateAndTime">
         Tarih ve Saat Ekle
       </button>
       <div class="container-fluid" *ngIf="showDateAndTime">
