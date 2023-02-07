@@ -1,0 +1,41 @@
+.filter-panel{
+  &__container{
+    background-color: white;
+    height: 100vh;
+    overflow: hidden;
+    width: 400px;
+    border-top: 1px solid rgba(0,0,0,.3);
+  }
+  &__header{
+    padding: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    &--close{
+      background-color: transparent;
+      outline: none;
+      border:none;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+  }
+  &__cardContainer{
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 50vh;
+  }
+  &__card{
+    width: 350px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor:pointer;
+    &:not(:last-child){
+      border-bottom: 1px solid rgba(0,0,0,.5);
+      padding: .2rem .4rem;
+    }
+  }
+}
+.example-full-width {
+  width: 100%;
+}

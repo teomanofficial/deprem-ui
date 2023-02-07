@@ -38,6 +38,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   placeholderLocationMarker: L.Marker | null;
   markers: Record<string, Marker> = {};
   requests: Record<string, HelpRequestModel>;
+  showFilterPanel: boolean = false;
+  showFilterButton = false;
 
   constructor(
     private readonly geocoding: GeocodingService,
@@ -116,6 +118,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         for (let value of Object.values(this.requests)) {
           this.createMarker(value);
         }
+        this.showFilterButton = true
+        this.cdr.detectChanges()
       } else {
         console.log('No data available');
       }
@@ -184,6 +188,19 @@ export class AppComponent implements OnInit, AfterViewInit {
     (marker as any)['__id__'] = id;
     marker.on('click', this.onMarkerClick.bind(this))
     this.markers[id] = marker;
+  }
+
+  onShowFilterButtonClick() {
+    this.showFilterPanel = true;
+  }
+
+  onCloseFilterButtonClick() {
+    this.showFilterPanel = false;
+  }
+
+  onAddressClickFromFilter(item: HelpRequestModel) {
+    const { lat, lon } = item.location;
+    this.map.flyTo([lat,lon],18)
   }
 }
 
