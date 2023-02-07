@@ -8,6 +8,7 @@ import { getDatabase, ref, set } from 'firebase/database';
 import { ToastrService } from 'ngx-toastr';
 import { v4 as uuidv4 } from 'uuid';
 import { geocode } from '../../core/utils/google-reverse-geocoding.util';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create-help-form',
@@ -95,7 +96,9 @@ export class CreateHelpFormComponent implements OnInit, OnChanges, OnDestroy {
     const { lat, lng: lon } = this.location;
     value.location = { lat, lon };
     value.created_at = new Date().toISOString();
-    value.datetime.date = value.datetime.date.format('YYYY-MM-DD');
+    if (typeof value.datetime.date !== 'string') {
+      value.datetime.date = value.datetime.date?.format('YYYY-MM-DD');
+    }
     set(ref(db, 'requests/' + id), value)
       .then(() => {
         this.toaster.success('Yardım talebi alındı!');
