@@ -21,5 +21,8 @@
                         (placeHolderChange)="onPlaceHolderMarkerChange($event)"
                         (closeForm)="onCloseHelpForm($event)">
   </app-create-help-form>
-  <app-filter-panel *ngIf='showFilterPanel' [requests]='requests' (onAddressClicked)='onAddressClickFromFilter($event)' (closeFilters)='onCloseFilterButtonClick()'></app-filter-panel>
+  <app-filter-panel *ngIf='showFilterPanel' [requests]='requests'
+                    (onAddressClicked)='onAddressClickFromFilter($event)'
+                    (closeFilters)='onCloseFilterButtonClick()'>
+  </app-filter-panel>
 </main>
