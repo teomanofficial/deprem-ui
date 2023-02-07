@@ -13,7 +13,7 @@
   <button mat-fab color="accent" aria-label="Yardım Talebi Oluştur" class="help-button" (click)="onAddHelpButtonClick()">
     <mat-icon>push_pin</mat-icon>
   </button>
-  <button mat-fab color="accent" aria-label="Filtreler" class="filter-button" (click)='onShowFilterButtonClick()'>
+  <button mat-fab color="accent" aria-label="Filtreler" class="filter-button" *ngIf='showFilterButton' (click)='onShowFilterButtonClick()'>
     <mat-icon>filter_list</mat-icon>
   </button>
 

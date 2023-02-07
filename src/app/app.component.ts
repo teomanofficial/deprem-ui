@@ -39,6 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   selectedRequest: HelpRequestModel;
   requestPosition: { top: string, left: string } = { top: '10px', left: '10px' };
   showFilterPanel: boolean = false;
+  showFilterButton = false;
 
   constructor(
     private readonly geocoding: GeocodingService,
@@ -115,6 +116,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         for (let value of Object.values(this.requests)) {
           this.createMarker(value);
         }
+        this.showFilterButton = true
+        this.cdr.detectChanges()
       } else {
         console.log('No data available');
       }
