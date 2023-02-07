@@ -95,7 +95,7 @@ export class CreateHelpFormComponent implements OnInit, OnChanges, OnDestroy {
     const { lat, lng: lon } = this.location;
     value.location = { lat, lon };
     value.created_at = new Date().toISOString();
-
+    value.datetime.date = value.datetime.date.format('YYYY-MM-DD');
     set(ref(db, 'requests/' + id), value)
       .then(() => {
         this.toaster.success('Yardım talebi alındı!');
