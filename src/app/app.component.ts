@@ -11,14 +11,14 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { Feature, Point } from 'geojson';
-import { child, get, getDatabase, ref, onValue } from 'firebase/database';
+import { child, get, getDatabase, ref } from 'firebase/database';
 import { firebaseApp } from './core/config/firebase/db.firebase';
-import { createMarker, createMarkerFromLatLng, createRegisteredMarker } from './core/utils/create-marker.util';
+import { createMarkerFromLatLng, createRegisteredMarker } from './core/utils/create-marker.util';
 import { HelpRequestModel } from './core/models/help-request.model';
 import { GeocodingService } from './core/services/geocoding.service';
 import { RequestDetailsCardComponent } from './components/request-details-card/request-details-card.component';
 import { first } from 'rxjs/operators';
+import * as markerClusterGroup from 'leaflet.markercluster'
 
 
 @Component({
@@ -31,14 +31,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('map') mapElementRef: ElementRef<HTMLDivElement>;
 
   map: L.Map;
+  cluster: any;
   showHelpForm: boolean;
   selectedLocation: LatLng | null;
   helpLocationMarker: L.Marker | null;
   placeholderLocationMarker: L.Marker | null;
   markers: Record<string, Marker> = {};
   requests: Record<string, HelpRequestModel>;
-  selectedRequest: HelpRequestModel;
-  requestPosition: { top: string, left: string } = { top: '10px', left: '10px' };
 
   constructor(
     private readonly geocoding: GeocodingService,
@@ -63,14 +62,17 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   private registerMap() {
     this.map = new L.Map(this.mapElementRef.nativeElement, {
+      zoom: 8,
+      preferCanvas: true,
       center: [37.5753, 36.9228],
-      zoom: 8
     });
     const googleStreets = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
       maxZoom: 20,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
     googleStreets.addTo(this.map);
+    this.cluster = new (markerClusterGroup as any).MarkerClusterGroup();
+    this.map.addLayer(this.cluster);
   }
 
   private registerMapEvents() {
@@ -111,7 +113,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     get(child(dbRef, `requests`)).then((snapshot) => {
       if (snapshot.exists()) {
         this.requests = snapshot.val();
-        console.log(Object.values(this.requests).length);
         for (let value of Object.values(this.requests)) {
           this.createMarker(value);
         }
@@ -179,7 +180,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     const { id, location } = value;
     const { lat, lon } = location;
     const marker = createRegisteredMarker(lat, lon);
-    marker.addTo(this.map);
+    this.cluster.addLayer(marker);
     (marker as any)['__id__'] = id;
     marker.on('click', this.onMarkerClick.bind(this))
     this.markers[id] = marker;

@@ -6,19 +6,17 @@
     <div class='custom-table'>
       <div class='custom-row'>
         <div class='row-heading'>
-          Adres:
+          Adres
         </div>
         <div class='row-description'>
           {{ request.address }}
         </div>
       </div>
-      <div class='custom-row'>
+      <div class='custom-row' *ngIf="request.description">
         <div class='row-heading'>
-          Açıklama:
+          Açıklama
         </div>
-        <div class='row-description'>
-          {{ request.description ? request.description : '-' }}
-        </div>
+        <div class='row-description'>{{ request.description }}</div>
       </div>
     </div>
   </div>
