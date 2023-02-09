@@ -45,9 +45,7 @@
           <h4 style='font-weight: bold;'>Son İhbarlar</h4>
           <hr>
           <div class='filter-panel__cardContainer'>
-            <div (click)='onClickAddress(item)' class='filter-panel__card' *ngFor='let item of sortedRequestArray'>
-              {{item.address}}
-            </div>
+            <app-filter-card [helpRequest]='item' (goClick)='onClickAddress($event)' *ngFor='let item of sortedRequestArray'></app-filter-card>
           </div>
         </div>
       </div>
