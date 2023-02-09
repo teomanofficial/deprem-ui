@@ -10,35 +10,25 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { PrependBaseApiUrlInterceptor } from './core/interceptors/prepend-base-api-url.interceptor';
-import { ContactComponent } from './contact/contact.component';
-import { Routes, RouterModule } from '@angular/router';
-
-const appRoutes: Routes= [
-    {path:'contact',component:ContactComponent}
-];
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        ContactComponent
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        ToastrModule.forRoot(),
-        MatDatepickerModule,
-        MatMomentDateModule,
-        RouterModule.forRoot(appRoutes)
-    ],
-    providers: [
-        { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
-        { provide: HTTP_INTERCEPTORS, useClass: PrependBaseApiUrlInterceptor, multi: true }
-    ],
-    exports: [
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    MatDatepickerModule,
+    MatMomentDateModule,
+  ],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    { provide: HTTP_INTERCEPTORS, useClass: PrependBaseApiUrlInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
