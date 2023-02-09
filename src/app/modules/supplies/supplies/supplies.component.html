@@ -1,0 +1,41 @@
+<mat-card>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table w-100">
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.no}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="request-name-surname">
+          <th mat-header-cell *matHeaderCellDef> Talep Eden İsim Soy İsim </th>
+          <td mat-cell *matCellDef="let element"> {{element.nameSurname}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="request-contact-info">
+          <th mat-header-cell *matHeaderCellDef> Talep Eden İletişim Bilgisi </th>
+          <td mat-cell *matCellDef="let element"> {{element.contactInfo}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="request-supply-info">
+          <th mat-header-cell *matHeaderCellDef> Talep Edilen Malzeme Bilgileri </th>
+          <td mat-cell *matCellDef="let element"> {{element.supplyInfo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="request-date">
+            <th mat-header-cell *matHeaderCellDef> Talep Tarihi </th>
+            <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+          </ng-container>
+
+        <ng-container matColumnDef="province">
+          <th mat-header-cell *matHeaderCellDef>İl </th>
+          <td mat-cell *matCellDef="let element"> {{element.province}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="district">
+          <th mat-header-cell *matHeaderCellDef>İlçe </th>
+          <td mat-cell *matCellDef="let element"> {{element.district}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+</mat-card>   
