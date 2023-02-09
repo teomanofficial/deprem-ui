@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HelpRequestModel } from '../../../core/models/help-request.model';
+import { HelpRequestResponseModel } from '../../../core/models/help-request-response.model';
 
 @Component({
   selector: 'app-filter-panel',
@@ -10,11 +11,11 @@ import { HelpRequestModel } from '../../../core/models/help-request.model';
 export class FilterPanelComponent implements OnInit {
 
   @Output() closeFilters: EventEmitter<any> = new EventEmitter<any>();
-  @Output() onAddressClicked: EventEmitter<HelpRequestModel> = new EventEmitter<HelpRequestModel>();
-  @Input() requests: Record<string, HelpRequestModel>;
+  @Output() onAddressClicked: EventEmitter<HelpRequestResponseModel> = new EventEmitter<HelpRequestResponseModel>();
+  @Input() requests: Record<string, HelpRequestResponseModel>;
 
   form: FormGroup
-  sortedRequestArray: HelpRequestModel[] = [];
+  sortedRequestArray: HelpRequestResponseModel[] = [];
   loading = false;
 
   constructor() {
@@ -55,7 +56,7 @@ export class FilterPanelComponent implements OnInit {
     }
 
     if(this.form.controls.date.value){
-      this.sortedRequestArray = this.sortedRequestArray.filter((item)=>item.datetime?.date === this.form.controls.date.value.format('YYYY-MM-DD'))
+      this.sortedRequestArray = this.sortedRequestArray.filter((item)=>item?.date === this.form.controls.date.value.format('YYYY-MM-DD'))
     }
   }
 
@@ -64,7 +65,7 @@ export class FilterPanelComponent implements OnInit {
     this.form.reset();
   }
 
-  onClickAddress(item: HelpRequestModel) {
+  onClickAddress(item: HelpRequestResponseModel) {
     this.onAddressClicked.emit(item);
   }
 }

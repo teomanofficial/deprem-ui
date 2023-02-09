@@ -7,10 +7,11 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { HelpRequestModel } from '../../../core/models/help-request.model';
-import { database } from '../../../core/config/firebase/db.firebase';
-import { child, ref, set } from 'firebase/database';
 import { ToastrService } from 'ngx-toastr';
+import { finalize } from 'rxjs/operators';
+
+import { HelpRequestService } from '../../../core/services/help-request.service';
+import { HelpRequestResponseModel } from '../../../core/models/help-request-response.model';
 
 @Component({
   selector: 'app-request-details-card',
@@ -19,15 +20,15 @@ import { ToastrService } from 'ngx-toastr';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestDetailsCardComponent implements OnInit {
-  @Input() request: HelpRequestModel;
+  @Input() request: HelpRequestResponseModel;
   @Output() close = new EventEmitter<boolean>();
 
   loading: boolean;
 
-
   constructor(
     private readonly toaster: ToastrService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly requestService: HelpRequestService,
   ) {
   }
 
@@ -40,21 +41,19 @@ export class RequestDetailsCardComponent implements OnInit {
 
   onDeleteButton() {
     this.loading = true;
-    this.cdr.markForCheck();
 
-    set(child(ref(database, 'requests'), this.request.id), null)
-      .then(() => {
-        this.toaster.success('Yardım talebi kaldırıldı');
-        this.close.emit(true);
-        this.cdr.markForCheck();
-      })
-      .catch(() => {
-        this.toaster.error('Yardım talebi kaldırılırken bir hata oluştu!');
-        this.cdr.markForCheck();
-      })
-      .finally(() => {
+    this.requestService.deleteHelpRequest(this.request.id)
+      .pipe(finalize(() => {
         this.loading = false;
         this.cdr.markForCheck();
-      })
+      }))
+      .subscribe(
+        () => {
+          this.toaster.success('Yardım talebi kaldırıldı');
+          this.close.emit(true);
+          this.cdr.markForCheck();
+        },
+        () => this.toaster.error('Yardım talebi kaldırılırken bir sorun oluştu!'),
+      );
   }
 }

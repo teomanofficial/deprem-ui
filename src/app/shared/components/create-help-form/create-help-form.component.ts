@@ -1,13 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { LatLng } from 'leaflet';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { GeocodingService } from '../../../core/services/geocoding.service';
-import { firebaseApp } from '../../../core/config/firebase/db.firebase';
-import { getDatabase, ref, set } from 'firebase/database';
 import { ToastrService } from 'ngx-toastr';
-import { v4 as uuidv4 } from 'uuid';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { geocode } from '../../../core/utils/google-reverse-geocoding.util';
+import { GeocodingService } from '../../../core/services/geocoding.service';
+import { HelpRequestService } from '../../../core/services/help-request.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-create-help-form',
@@ -27,8 +26,9 @@ export class CreateHelpFormComponent implements OnInit, OnChanges, OnDestroy {
   private readonly destroyed$ = new Subject();
 
   constructor(
-    private readonly geocodingService: GeocodingService,
     private readonly toaster: ToastrService,
+    private readonly requestService: HelpRequestService,
+    private readonly geocodingService: GeocodingService,
   ) {
   }
 
@@ -65,7 +65,7 @@ export class CreateHelpFormComponent implements OnInit, OnChanges, OnDestroy {
       address: new FormControl(null, Validators.required),
       description: new FormControl(null),
       datetime: new FormGroup({
-        date: new FormControl('2023-02-06'),
+        date: new FormControl(moment().format('YYYY-MM-DD')),
         time: new FormControl()
       })
     });
@@ -87,28 +87,24 @@ export class CreateHelpFormComponent implements OnInit, OnChanges, OnDestroy {
     this.loading = true;
     this.form.disable();
 
-    const db = getDatabase(firebaseApp);
-
-    const value = this.form.getRawValue();
-    const id = uuidv4();
-    value.id = id;
+    const request = this.form.getRawValue();
     const { lat, lng: lon } = this.location;
-    value.location = { lat, lon };
-    value.created_at = new Date().toISOString();
-    if (typeof value.datetime.date !== 'string') {
-      value.datetime.date = value.datetime.date?.format('YYYY-MM-DD');
+    request.location = { lat, lon };
+    request.created_at = new Date().toISOString();
+
+    if (typeof request.datetime.date !== 'string') {
+      request.datetime.date = request.datetime.date?.format('YYYY-MM-DD');
     }
-    set(ref(db, 'requests/' + id), value)
-      .then(() => {
-        this.toaster.success('Yardım talebi alındı!');
-        this.closeForm.emit(value);
-      })
-      .catch(() => {
-        this.toaster.error('Yardım talebi alınırken bir hata oluştu!');
-      })
-      .finally(() => {
-        this.closeForm.emit();
-      })
+
+    this.requestService.createHelpRequest(request)
+      .subscribe(
+        response => {
+          this.toaster.success('Yardım talebi alındı!');
+          this.closeForm.emit(response);
+        },
+        () => this.toaster.error('Yardım talebi alınırken bir hata oluştu!'),
+        () => this.closeForm.emit()
+      )
   }
 
   onGeocodingClick() {

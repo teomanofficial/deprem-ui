@@ -6,6 +6,7 @@ import { HomeComponent } from './home.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '../../shared/shared.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { SharedModule } from '../../shared/shared.module';
     HomeRoutingModule,
     SharedModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule
   ]
 })
 export class HomeModule { }

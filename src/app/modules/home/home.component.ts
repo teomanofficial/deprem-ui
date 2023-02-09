@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
@@ -9,38 +10,41 @@ import {
 } from '@angular/core';
 import * as L from 'leaflet';
 import { LatLng, Marker } from 'leaflet';
-import { HelpRequestModel } from '../../core/models/help-request.model';
 import { GeocodingService } from '../../core/services/geocoding.service';
 import * as markerClusterGroup from 'leaflet.markercluster';
 import { createMarkerFromLatLng, createRegisteredMarker } from '../../core/utils/create-marker.util';
-import { child, get, getDatabase, ref } from 'firebase/database';
-import { firebaseApp } from '../../core/config/firebase/db.firebase';
-import { RequestDetailsCardComponent } from '../../shared/components/request-details-card/request-details-card.component';
+import {
+  RequestDetailsCardComponent
+} from '../../shared/components/request-details-card/request-details-card.component';
 import { first } from 'rxjs/operators';
 import { isPresentationDomain } from '../../core/utils/is-presentation-domain.util';
+import { HelpRequestService } from '../../core/services/help-request.service';
+import { HelpRequestResponseModel } from '../../core/models/help-request-response.model';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 
   @ViewChild('map') mapElementRef: ElementRef<HTMLDivElement>;
 
   map: L.Map;
   cluster: any;
   showHelpForm: boolean;
+  showFilterButton = false;
+  markersLoading: boolean;
+  showFilterPanel: boolean = false;
   selectedLocation: LatLng | null;
   helpLocationMarker: L.Marker | null;
-  placeholderLocationMarker: L.Marker | null;
   markers: Record<string, Marker> = {};
-  requests: Record<string, HelpRequestModel>;
-  showFilterPanel: boolean = false;
-  showFilterButton = false;
+  placeholderLocationMarker: L.Marker | null;
+  requests: Record<string, HelpRequestResponseModel> = {};
 
   constructor(
     private readonly geocoding: GeocodingService,
+    private readonly requestService: HelpRequestService,
     private readonly cdr: ChangeDetectorRef,
     private readonly cfr: ComponentFactoryResolver,
     private readonly injector: Injector
@@ -109,21 +113,20 @@ export class HomeComponent implements OnInit {
   }
 
   private registerHelpRequests() {
-    const dbRef = ref(getDatabase(firebaseApp));
-    get(child(dbRef, `requests`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        this.requests = snapshot.val();
-        for (let value of Object.values(this.requests)) {
-          this.createMarker(value);
+    this.markersLoading = true;
+    this.cdr.detectChanges();
+    this.requestService.getRequestList()
+      .subscribe(requests => {
+        for (let request of requests) {
+          this.createMarker(request);
+          this.requests[request.objectId] = request;
         }
-        this.showFilterButton = true
-        this.cdr.detectChanges()
-      } else {
-        console.log('No data available');
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
+        this.markersLoading = false;
+        this.cdr.markForCheck();
+      }, () => {
+        this.markersLoading = false;
+        this.cdr.markForCheck();
+      });
   }
 
   onMarkerClick(e: any) {
@@ -148,16 +151,17 @@ export class HomeComponent implements OnInit {
         .pipe(first())
         .subscribe(res => {
           if (res) {
-            delete this.markers[request.id];
+            marker.getPopup()?.close();
+            delete this.markers[request.objectId];
             marker.removeFrom(this.map);
           } else {
-            marker.getPopup()?.close();
+
           }
         })
     }
   }
 
-  onCloseHelpForm(request: HelpRequestModel) {
+  onCloseHelpForm(request: HelpRequestResponseModel) {
     if (this.placeholderLocationMarker) {
       this.placeholderLocationMarker.removeFrom(this.map);
       this.placeholderLocationMarker = null;
@@ -169,7 +173,7 @@ export class HomeComponent implements OnInit {
     }
 
     if (request) {
-      this.requests[request.id] = request;
+      this.requests[request.objectId] = request;
       this.createMarker(request)
     }
 
@@ -178,14 +182,14 @@ export class HomeComponent implements OnInit {
     this.showHelpForm = false;
   }
 
-  private createMarker(value: HelpRequestModel) {
-    const { id, location } = value;
+  private createMarker(value: HelpRequestResponseModel) {
+    const { objectId, location } = value;
     const { lat, lon } = location;
     const marker = createRegisteredMarker(lat, lon);
     this.cluster.addLayer(marker);
-    (marker as any)['__id__'] = id;
+    (marker as any)['__id__'] = objectId;
     marker.on('click', this.onMarkerClick.bind(this))
-    this.markers[id] = marker;
+    this.markers[objectId] = marker;
   }
 
   onShowFilterButtonClick() {
@@ -196,9 +200,9 @@ export class HomeComponent implements OnInit {
     this.showFilterPanel = false;
   }
 
-  onAddressClickFromFilter(item: HelpRequestModel) {
+  onAddressClickFromFilter(item: HelpRequestResponseModel) {
     const { lat, lon } = item.location;
-    this.map.flyTo([lat,lon],18)
+    this.map.flyTo([lat, lon], 18)
   }
 
   showCreateHelpRequest() {

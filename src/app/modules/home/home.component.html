@@ -1,20 +1,26 @@
 <div class="map" #map></div>
 
-<ng-container *ngIf="showCreateHelpRequest()">
-  <button mat-fab color="accent" aria-label="Yardım Talebi Oluştur" class="help-button" (click)="onAddHelpButtonClick()">
-    <mat-icon>push_pin</mat-icon>
+<div class="loading-overlay" *ngIf="markersLoading">
+  Veriler Yükleniyor..
+  <mat-spinner color="accent" diameter="25"></mat-spinner>
+</div>
+
+<ng-container *ngIf="!markersLoading">
+  <ng-container *ngIf="showCreateHelpRequest()">
+    <button mat-fab color="accent" aria-label="Yardım Talebi Oluştur" class="help-button" (click)="onAddHelpButtonClick()">
+      <mat-icon>push_pin</mat-icon>
+    </button>
+  </ng-container>
+
+  <button mat-fab color="accent" aria-label="Filtreler" class="filter-button" *ngIf='showFilterButton' (click)='onShowFilterButtonClick()'>
+    <mat-icon>filter_list</mat-icon>
   </button>
+
+  <app-create-help-form *ngIf="showHelpForm" [location]="selectedLocation" (placeHolderChange)="onPlaceHolderMarkerChange($event)"
+                        (closeForm)="onCloseHelpForm($event)">
+  </app-create-help-form>
+
+  <app-filter-panel *ngIf='showFilterPanel' [requests]='requests' (onAddressClicked)='onAddressClickFromFilter($event)'
+                    (closeFilters)='onCloseFilterButtonClick()'>
+  </app-filter-panel>
 </ng-container>
-
-<button mat-fab color="accent" aria-label="Filtreler" class="filter-button" *ngIf='showFilterButton' (click)='onShowFilterButtonClick()'>
-  <mat-icon>filter_list</mat-icon>
-</button>
-
-<app-create-help-form *ngIf="showHelpForm" [location]="selectedLocation"
-                      (placeHolderChange)="onPlaceHolderMarkerChange($event)"
-                      (closeForm)="onCloseHelpForm($event)">
-</app-create-help-form>
-<app-filter-panel *ngIf='showFilterPanel' [requests]='requests'
-                  (onAddressClicked)='onAddressClickFromFilter($event)'
-                  (closeFilters)='onCloseFilterButtonClick()'>
-</app-filter-panel>
