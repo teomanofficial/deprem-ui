@@ -17,11 +17,17 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { ContactComponent } from './contact/contact.component';
+import { Routes, RouterModule } from '@angular/router';
 
+const appRoutes: Routes= [
+    {path:'contact',component:ContactComponent}
+];
 
 @NgModule({
     declarations: [
         AppComponent,
+        ContactComponent
     ],
     imports: [
         BrowserModule,
@@ -30,7 +36,8 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
         BrowserAnimationsModule,
         ToastrModule.forRoot(),
         MatDatepickerModule,
-        MatMomentDateModule
+        MatMomentDateModule,
+        RouterModule.forRoot(appRoutes)
     ],
     providers: [
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
