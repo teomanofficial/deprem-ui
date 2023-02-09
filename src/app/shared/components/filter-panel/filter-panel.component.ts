@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { HelpRequestModel } from '../../core/models/help-request.model';
+import { HelpRequestModel } from '../../../core/models/help-request.model';
 
 @Component({
   selector: 'app-filter-panel',

@@ -8,21 +8,5 @@
 </header>
 
 <main class="wrapper">
-  <div class="map" #map></div>
-
-  <button mat-fab color="accent" aria-label="Yardım Talebi Oluştur" class="help-button" (click)="onAddHelpButtonClick()">
-    <mat-icon>push_pin</mat-icon>
-  </button>
-  <button mat-fab color="accent" aria-label="Filtreler" class="filter-button" *ngIf='showFilterButton' (click)='onShowFilterButtonClick()'>
-    <mat-icon>filter_list</mat-icon>
-  </button>
-
-  <app-create-help-form *ngIf="showHelpForm" [location]="selectedLocation"
-                        (placeHolderChange)="onPlaceHolderMarkerChange($event)"
-                        (closeForm)="onCloseHelpForm($event)">
-  </app-create-help-form>
-  <app-filter-panel *ngIf='showFilterPanel' [requests]='requests'
-                    (onAddressClicked)='onAddressClickFromFilter($event)'
-                    (closeFilters)='onCloseFilterButtonClick()'>
-  </app-filter-panel>
+  <router-outlet></router-outlet>
 </main>

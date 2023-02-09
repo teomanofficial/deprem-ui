@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CreateHelpFormComponent } from './components/create-help-form/create-help-form.component';
+import { CreateHelpFormComponent } from './shared/components/create-help-form/create-help-form.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -17,37 +17,27 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { RequestDetailsCardComponent } from './components/request-details-card/request-details-card.component';
-import { FilterPanelComponent } from './components/filter-panel/filter-panel.component';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CreateHelpFormComponent,
-    RequestDetailsCardComponent,
-    FilterPanelComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    ToastrModule.forRoot(),
-    MatProgressSpinnerModule,
-    MatDatepickerModule,
-    MatMomentDateModule
-  ],
-  providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        ToastrModule.forRoot(),
+        MatDatepickerModule,
+        MatMomentDateModule
+    ],
+    providers: [
+        { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+    ],
+    exports: [
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

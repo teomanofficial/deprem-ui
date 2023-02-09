@@ -33,11 +33,21 @@
 </head>
 <body class="mat-typography">
 <app-root></app-root>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T1NMTB5VPN"></script>
 <script>
   function byPassGoogleMapsLoader() {
   }
 
   window.byPassGoogleMapsLoader = byPassGoogleMapsLoader;
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+
+  gtag('js', new Date());
+
+  gtag('config', 'G-T1NMTB5VPN');
 </script>
 </body>
 </html>

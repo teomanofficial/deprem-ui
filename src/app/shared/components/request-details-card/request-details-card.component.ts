@@ -7,8 +7,8 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { HelpRequestModel } from '../../core/models/help-request.model';
-import { database } from '../../core/config/firebase/db.firebase';
+import { HelpRequestModel } from '../../../core/models/help-request.model';
+import { database } from '../../../core/config/firebase/db.firebase';
 import { child, ref, set } from 'firebase/database';
 import { ToastrService } from 'ngx-toastr';
 
