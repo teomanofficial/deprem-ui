@@ -10,13 +10,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { FilterCardComponent } from './components/filter-panel/filter-card/filter-card.component';
 
 @NgModule({
-  declarations: [
-    CreateHelpFormComponent,
-    FilterPanelComponent,
-    RequestDetailsCardComponent,
-  ],
+    declarations: [
+        CreateHelpFormComponent,
+        FilterPanelComponent,
+        RequestDetailsCardComponent,
+        FilterCardComponent,
+    ],
   imports: [
     CommonModule,
     MatCardModule,
