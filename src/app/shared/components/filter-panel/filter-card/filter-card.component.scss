@@ -1,0 +1,33 @@
+.custom-card {
+
+  border: 1px solid rgba(0, 51, 124, 0.38);
+  border-radius: 5px;
+  margin-right: .5rem;
+  &:not(last-child){
+    margin-bottom: .5rem;
+  }
+  &__header{
+    padding: .25rem .5rem;
+    cursor: pointer;
+    & p{
+      margin-bottom: 0 !important;
+    }
+  }
+  &__body{
+    padding: .25rem .5rem;
+    margin-top: .5rem;
+    border-top: 1px solid rgba(0, 51, 124, 0.38) ;
+    border-bottom: 1px solid rgba(0, 51, 124, 0.38) ;
+  }
+  &__footer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem 1rem;
+  }
+}
+.custom-heading{
+  font-weight: bold;
+  margin-bottom: 0 !important;
+}

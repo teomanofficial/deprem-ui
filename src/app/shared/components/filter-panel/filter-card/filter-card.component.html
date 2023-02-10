@@ -1,0 +1,14 @@
+<div class='custom-card'>
+  <div (click)='onClickCardHeader()' class='custom-card__header'>
+    <p>{{helpRequest.address}}</p>
+  </div>
+  <div *ngIf='isCardBodyVisible' class='custom-card__body'>
+    <p class='custom-heading'>Açıklama</p>
+    {{helpRequest.description}}
+  </div>
+  <div *ngIf='isCardBodyVisible' class='custom-card__footer'>
+    <button (click)='onClickGo()' style='width: 100% ;background-color: #00337C;' mat-raised-button color="primary">
+      Git
+    </button>
+  </div>
+</div>
