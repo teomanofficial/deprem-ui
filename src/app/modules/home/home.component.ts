@@ -121,6 +121,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           this.createMarker(request);
           this.requests[request.objectId] = request;
         }
+        this.showFilterButton = true;
         this.markersLoading = false;
         this.cdr.markForCheck();
       }, () => {

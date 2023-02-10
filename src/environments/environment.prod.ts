@@ -9,5 +9,10 @@ export const environment = {
     messagingSenderId: '181473157161',
     appId: '1:181473157161:web:f590e59cd3beeb2fb6fc38',
     measurementId: 'G-95906D6S63'
+  },
+  apis: {
+    default: {
+      url: 'https://api.depremyardimhatti.com'
+    }
   }
 };

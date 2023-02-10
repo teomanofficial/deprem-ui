@@ -16,7 +16,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'https://localhost:5001'
+      url: 'https://api.depremyardimhatti.com'
     }
   }
 };

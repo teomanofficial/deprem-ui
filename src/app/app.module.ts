@@ -11,7 +11,6 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { PrependBaseApiUrlInterceptor } from './core/interceptors/prepend-base-api-url.interceptor';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,13 +22,12 @@ import { PrependBaseApiUrlInterceptor } from './core/interceptors/prepend-base-a
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     MatDatepickerModule,
-    MatMomentDateModule
+    MatMomentDateModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: HTTP_INTERCEPTORS, useClass: PrependBaseApiUrlInterceptor, multi: true }
   ],
-  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
