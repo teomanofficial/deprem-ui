@@ -14,10 +14,12 @@
         <div class='row'>
           <div class='col-md-12'>
             <mat-form-field class="example-full-width">
-              <mat-label>Tarih Seçin</mat-label>
-              <input matInput [matDatepicker]="picker" formControlName='date'>
-              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
+                <mat-label>Kaç Saat Önce?</mat-label>
+                <mat-select formControlName='hour'>
+                  <mat-option *ngFor="let hour of hours" [value]="hour">
+                    {{hour}}
+                  </mat-option>
+                </mat-select>
             </mat-form-field>
           </div>
           <div class='col-md-12'>
@@ -35,7 +37,7 @@
           <div class='col-md-6'>
             <button style='width: 100% ;background-color: #00337C;' mat-raised-button color="primary"
                     [disabled]="loading" (click)="onFormSubmit()">
-              Kaydet
+              Ara
             </button>
           </div>
         </div>
@@ -44,7 +46,7 @@
         <div class='col-md-12' style='margin-top:25px;'>
           <h4 style='font-weight: bold;'>Son İhbarlar</h4>
           <hr>
-          <div class='filter-panel__cardContainer'>
+          <div  class='filter-panel__cardContainer'>
             <app-filter-card [helpRequest]='item' (goClick)='onClickAddress($event)' *ngFor='let item of sortedRequestArray'></app-filter-card>
           </div>
         </div>

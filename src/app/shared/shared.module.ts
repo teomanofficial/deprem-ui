@@ -11,6 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FilterCardComponent } from './components/filter-panel/filter-card/filter-card.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
     declarations: [
@@ -27,7 +29,9 @@ import { FilterCardComponent } from './components/filter-panel/filter-card/filte
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatSelectModule,
+    MatOptionModule
   ],
   exports: [
     CreateHelpFormComponent,

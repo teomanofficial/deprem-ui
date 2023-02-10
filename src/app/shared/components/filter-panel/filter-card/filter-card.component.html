@@ -1,6 +1,7 @@
 <div class='custom-card'>
   <div (click)='onClickCardHeader()' class='custom-card__header'>
     <p>{{helpRequest.address}}</p>
+    <p class='mt-2'> <span style='font-weight: bold'>İhbar zamanı</span> : {{helpRequest.createdAt | date:'dd/MM/yyyy HH:mm'}}</p>
   </div>
   <div *ngIf='isCardBodyVisible' class='custom-card__body'>
     <p class='custom-heading'>Açıklama</p>

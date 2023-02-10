@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { HelpRequestModel } from '../../../core/models/help-request.model';
 import { HelpRequestResponseModel } from '../../../core/models/help-request-response.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-filter-panel',
@@ -15,6 +16,7 @@ export class FilterPanelComponent implements OnInit {
   @Input() requests: Record<string, HelpRequestResponseModel>;
 
   form: FormGroup
+  hours:number[] = [3,6,9,12,24];
   sortedRequestArray: HelpRequestResponseModel[] = [];
   loading = false;
 
@@ -30,7 +32,7 @@ export class FilterPanelComponent implements OnInit {
     this.form = new FormGroup({
       startTime: new FormControl(null),
       endTime: new FormControl(null),
-      date: new FormControl(null),
+      hour: new FormControl(null),
       address: new FormControl(null),
     });
   }
@@ -40,6 +42,7 @@ export class FilterPanelComponent implements OnInit {
       this.sortedRequestArray.push(this.requests[requestsKey])
     }
     this.sortedRequestArray = this.sortedRequestArray.reverse();
+    console.log(this.sortedRequestArray)
   }
 
   onClickClose() {
@@ -55,8 +58,19 @@ export class FilterPanelComponent implements OnInit {
             .includes(this.form.controls.address.value.replace(/\s+/g, '').toLowerCase()))
     }
 
-    if(this.form.controls.date.value){
-      this.sortedRequestArray = this.sortedRequestArray.filter((item)=>item?.date === this.form.controls.date.value.format('YYYY-MM-DD'))
+    if(this.form.controls.hour.value){
+      const currentTime = moment()
+      // @ts-ignore
+      this.sortedRequestArray = this.sortedRequestArray.filter((item)=>{
+        if(item.createdAt){
+          const addedTime = moment(item.createdAt).add(this.form.controls.hour.value, 'hours')
+          console.log( moment(item.createdAt));
+          console.log(moment(item.createdAt).add(this.form.controls.hour.value, 'hours'));
+          if(addedTime.isAfter(currentTime)){
+            return item;
+          }
+        }
+      })
     }
   }
 
